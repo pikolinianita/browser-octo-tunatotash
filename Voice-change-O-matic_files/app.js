@@ -206,7 +206,7 @@ function start() {
       myTimer.tick();
       draw();
     } else if (visualSetting == "frequencybars") {
-      analyser.fftSize = 1024; //first tries with 4096, 16384; max is 32768
+      analyser.fftSize = 32768; //first tries with 4096, 16384; max is 32768
       let bufferLength = analyser.frequencyBinCount;
       console.log(bufferLength);
       let dataArray = new Float32Array(bufferLength);
@@ -252,7 +252,7 @@ function start() {
                 dataArray[i]> dataArray[i+2] + 5 ){
              
               peaks.push([i, dataArray[i]]);
-              if (dataArray[i]> -70 ){
+              if (dataArray[i]> -60 ){
                 addToMax(i, dataArray, maxesData)
               }
               if (i==75){
@@ -296,7 +296,7 @@ function start() {
 
 
         if (mute.id == ""){
-          pseudoLog.innerHTML=JSON.stringify(peaks);
+          //pseudoLog.innerHTML=JSON.stringify(peaks);
           maxes.innerHTML=prettryfy(maxesData);
         }
       }
@@ -312,7 +312,7 @@ function start() {
   function prettryfy( o){
     let result = "";
       for (let val in o){
-        result += val + ": " + o[val] + "<br>";
+        result += "<div>" + val + ": " + o[val] + "</div>";
       }
       return result;
   }
