@@ -1,0 +1,51 @@
+<html lang="en-us"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width">
+	<title>Voice-change-O-matic</title>
+    <link rel="shortcut icon" href="https://mdn.github.io/voice-change-o-matic-float-data/favicon.ico" type="image/x-icon">
+    <link href="./Voice-change-O-matic_files/css" rel="stylesheet" type="text/css">
+	  <link href="./Voice-change-O-matic_files/normalize.css" rel="stylesheet" type="text/css">
+    <link href="./Voice-change-O-matic_files/app.css" rel="stylesheet" type="text/css">
+	
+</head>
+
+<body>
+  <div class="wrapper">
+    
+    <header>
+      <h1>Xylofon Game</h1>
+    </header>
+	  
+	  <canvas class="visualizer" width="800" height="100"></canvas> 
+    <div></div>
+
+    <canvas class="gameCanvas" width="800" height="600"></canvas> 
+    <div></div>
+	   <form class="controls">
+	  
+	   <div id="actions">
+        <a id="start-btn">Start</a>
+        <a class="mute">Mute</a>
+        <a class="reset">Reset Values</a>
+      </div>
+	  </form>
+</div>
+	
+	
+	
+</body>
+	<aside>
+	 <button id="install-btn" style="display: none;">Install app</button>
+  </aside>
+
+  <!-- The following element pulls in the script for the default template functionality -->
+      
+    <script src="./Voice-change-O-matic_files/install.js"></script>  
+	      
+    <script src="./game/game.js"></script>  
+
+    <!-- Below is your custom application script -->
+
+    <script src="./Voice-change-O-matic_files/app.js"></script>
+	
+</html>
