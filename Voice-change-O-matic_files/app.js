@@ -15,6 +15,17 @@ myTimer.tick = function () {
 }
 }
 
+var fluteFreq = [
+                ["c5",  [359, 718, 1436]],
+                ["d5", [403, 806, 1209]],
+                ["e5", [452, 905, 1357]],
+                ["f5", [479, 959, 1437]],
+                ["g5", [538, 1076, 1613]],
+                ["a5", [604, 1208, 1812]],
+                ["h5", [678, 1356, 2034]],
+                ["c6", [718, 1436, 2154]]
+              ]
+
 function start() {
   // fork getUserMedia for multiple browser versions, for those
   // that need prefixes
@@ -40,6 +51,7 @@ function start() {
 
   var mute = document.querySelector(".mute");
   var reset = document.querySelector(".reset");
+  var notesId = document.querySelector(".notesId");
 
   //set up the different audio nodes we will use for the app
 
@@ -277,14 +289,9 @@ function start() {
          maxCtx.fillRect(0, 0, WIDTH, HEIGHT);
          maxCtx.fillStyle = "rgb(200, 200, 200)";
         for(let peak in maxesData){
-          ///maxes to obiekt, nie fcuk array
+          
           //console.log(JSON.stringify(peak), JSON.stringify(maxesData[peak]));
-          if (peak==75){
-          console.log( "maxes",
-            peak*(barWidth + 1),
-            HEIGHT - (maxesData[peak] + 140),
-            barWidth,
-            (maxesData[peak] + 140))}
+          
             maxCtx.fillStyle = "rgb(200, 50, 200)";
 
             maxCtx.fillRect(
@@ -295,7 +302,16 @@ function start() {
         }
 
 
+
         if (mute.id == ""){
+          let probablyNote = fluteFreq
+            .filter(note => isThatNote(dataArray, note[1], note[0]))
+            .map(note => note[0]);
+            
+          if ((probablyNote.length > 0) && (notesId.innerHTML != probablyNote)){
+          
+            notesId.innerHTML = probablyNote;
+            };
           //pseudoLog.innerHTML=JSON.stringify(peaks);
           maxes.innerHTML=prettryfy(maxesData);
         }
@@ -325,7 +341,32 @@ function start() {
     }
   } 
 
-  
+  function isThatNote(audioArr, soundArr, note){
+    let result = (soundArr.filter(peak => hasMaxHere(audioArr, peak)).length - soundArr.length)>-1;
+    if (result === true){
+      console.log("found note", note, soundArr.map(peak => audioArr[peak]));
+    }
+    
+          return result; 
+  }
+
+  function hasMaxHere(audioArr, peak){
+    let max;
+        if (audioArr[peak]> audioArr[peak +1]){
+          if  (audioArr[peak]> audioArr[peak -1])
+            max = peak;
+          else if (audioArr[peak-1]> audioArr[peak -2])
+            max = peak-1;
+          else 
+            max = peak -2; 
+        } else if (audioArr[peak+1]> audioArr[peak +2])
+          max = peak+1;
+          else
+          max = peak +2;
+        return ((audioArr[max] - audioArr[max+3]) > 8) 
+            && ((audioArr[max] - audioArr[max-3]) > 8)
+            && audioArr[max] > -90;
+  }
     
 
   function voiceChange() {
